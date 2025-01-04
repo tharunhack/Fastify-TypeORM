@@ -7,7 +7,7 @@ COPY . .
 # Install dependencies using npm
 RUN npm install
 # Build the TypeScript code
-RUN npm build
+RUN npm run build
 # Expose the necessary port
 EXPOSE 8000
 # Start the Fastify server
