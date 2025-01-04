@@ -1,0 +1,14 @@
+# Use the specified node version
+FROM node:18
+# Set the working directory
+WORKDIR /app
+# Copy the entire project
+COPY . .
+# Install dependencies using npm
+RUN npm install
+# Build the TypeScript code
+RUN npm build
+# Expose the necessary port
+EXPOSE 8000
+# Start the Fastify server
+CMD ["npm", "start"]
