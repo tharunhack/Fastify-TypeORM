@@ -1,8 +1,11 @@
 import fastify from "fastify";
 import router from "./router";
-import { AppDataSource, createTables } from "./database";
-import fastifyMysql from "@fastify/mysql";
 import fastifyCors from "@fastify/cors";
+import { AppDataSource, createTables } from "./database";
+import fastifyPostgres from "@fastify/postgres";
+import { buildSchema } from "type-graphql";
+import { SwapTransactionsResolver } from "./controller/resolver";
+import mercurius from "mercurius";
 
 
 AppDataSource.initialize()
@@ -20,8 +23,8 @@ const server = fastify({
 });
 
 try {
-  server.register(fastifyMysql, {
-    connectionString: process.env.DB_CONNECTION_URL as string,
+  server.register(fastifyPostgres, {
+    connectionString: process.env.POSTGRESS_DB_CONNECTION_FOR_SWAP_TRANSACTIONS as string,
   });
 } catch (err: any) {
   throw err;
@@ -35,6 +38,20 @@ server.register(fastifyCors, {
   credentials: true, // Allow cookies and HTTP authentication headers
   maxAge: 86400,
 });
+
+async function setupGraphQL() {
+  const schema = await buildSchema({
+    resolvers: [SwapTransactionsResolver], // Ensure correct resolver is passed
+    validate: false, // Disable validation if needed
+  });
+
+  server.register(mercurius, {
+    schema,
+    graphiql: true, // Enable GraphQL Playground
+  });
+}
+
+setupGraphQL(); // Ensure GraphQL is initialized
 
 server.register(router);
 
