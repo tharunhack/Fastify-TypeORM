@@ -1,24 +1,24 @@
 import { DataSource, EntityManager } from "typeorm";
+import { TestDB } from "./controller/entities/testDB";
+import { TEST_DB, TestDBTableQuery } from "./constants";
 import dotenv from "dotenv";
-import { SwapTransactionsInPostgres } from "./controller/entities/swapTransactionsInPostgres";
-import { SWAP_TRANSACTIONS_IN_POSTGRES, SwapTransactionsInPostgresDataTableQuery } from "./constants";
 dotenv.config();
 
-const DATABASE_URL = process.env.POSTGRESS_DB_CONNECTION_FOR_SWAP_TRANSACTIONS;
+const DATABASE_URL = process.env.DB_CONNECTION_URL;
 export const AppDataSource = new DataSource({
-  type: "postgres",
+  type: "mysql",
   url: DATABASE_URL,
   synchronize: false,
   logging: false,
-  entities: [SwapTransactionsInPostgres],
+  entities: [TestDB],
 });
 
 export const createTables = async () => {
   try {
     await createTableIfNotExists(
       AppDataSource.manager,
-      SWAP_TRANSACTIONS_IN_POSTGRES,
-      SwapTransactionsInPostgresDataTableQuery
+      TEST_DB,
+      TestDBTableQuery
     );
   } catch (error) {
     console.error("Error connecting to database:", error);
@@ -32,16 +32,16 @@ export const createTableIfNotExists = async (
 ) => {
   try {
     const tableExist = await connection.query(
-      `SELECT to_regclass('${tableName}')`
+      `SHOW TABLES LIKE '${tableName}'`
     );
-
-    if (!tableExist[0].to_regclass) {
+    if (tableExist.length === 0) {
       await connection.query(query);
       console.log(`Table ${tableName} created successfully`);
     } else {
       console.log(`Table ${tableName} already exists, skipping creation.`);
     }
   } catch (error) {
+    console.log("error: ", error);
     console.error(`Error creating table ${tableName}:`, error);
     throw new Error("Internal server error");
   }

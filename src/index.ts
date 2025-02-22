@@ -1,7 +1,7 @@
 import app from "./app";
 import { AppDataSource } from "./database";
 
-const FASTIFY_PORT = Number(process.env.FASTIFY_PORT) || 8000;
+const FASTIFY_PORT = Number(process.env.FASTIFY_PORT) || 3006;
 
 AppDataSource.initialize()
   .then(async () => {

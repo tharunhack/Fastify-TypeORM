@@ -1,6 +1,7 @@
 {
-  "name": "swap-transaction-graphql",
+  "name": "fastify-typeorm-starter",
   "version": "0.0.1",
+  "description": "Fastify TypeORM repository",
   "scripts": {
     "watch": "tsc --watch --preserveWatchOutput --pretty",
     "dev": "cross-env NODE_ENV=development nodemon",
@@ -11,13 +12,12 @@
   "author": "tharunhack <tharunk2002@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "@fastify/cors": "^10.0.2",
-    "@fastify/postgres": "^6.0.2",
+    "@fastify/cors": "^10.0.1",
+    "@fastify/mysql": "^5.0.1",
+    "@types/mysql": "^2.15.26",
     "dotenv": "^16.4.7",
-    "fastify": "^5.2.1",
-    "mercurius": "^16.0.1",
-    "reflect-metadata": "^0.2.2",
-    "type-graphql": "^2.0.0-rc.2",
+    "fastify": "^5.2.0",
+    "mysql": "^2.18.1",
     "typeorm": "^0.3.20"
   },
   "devDependencies": {
