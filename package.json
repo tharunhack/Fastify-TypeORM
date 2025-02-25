@@ -12,7 +12,7 @@
   "author": "tharunhack <tharunk2002@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "@fastify/cors": "^10.0.1",
+    "@fastify/cors": "^10.1.0",
     "@fastify/mysql": "^5.0.1",
     "@types/mysql": "^2.15.26",
     "dotenv": "^16.4.7",
